@@ -42,11 +42,8 @@ io.on('connection', (socket) => {
     socket.to(room).emit("join-game", username);
   });
 
-  socket.on("new-message", (data) => {
-    socket.broadcast.emit("broadcast-message", {
-      username: users[data.username],
-      message: data.message,
-    });
+  socket.on("chat-message", (username, msg) => {
+    io.emit("the-message", username + ": " + msg);
   });
 
   socket.on("game-over", (room, username, score) => {
